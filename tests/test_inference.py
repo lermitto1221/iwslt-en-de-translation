@@ -51,7 +51,7 @@ class InferenceTests(unittest.TestCase):
             with patch("mt.inference.torch.load", wraps=torch.load) as loader:
                 session = Translator(checkpoint=self.checkpoint, device="cpu")
                 loader.assert_called_once()
-                self.assertEqual(session.data_dir, self.root / "data")
+                self.assertTrue(session.data_dir.samefile(self.root / "data"))
         finally:
             os.chdir(current)
 
