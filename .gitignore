@@ -1,0 +1,36 @@
+# Environments and downloaded third-party code
+.venv/
+venv/
+.analysis-deps/
+node_modules/
+.chart-data-*/
+# Generated experiment state, corpora, models and caches
+artifacts/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.parquet
+*.model
+*.vocab
+*.jsonl
+# Local credentials and editor/system files
+.env
+.env.*
+!.env.example
+credentials*.json
+*service-account*.json
+*.pem
+*.key
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
