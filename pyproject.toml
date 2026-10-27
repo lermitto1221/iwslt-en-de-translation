@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlproject-translation"
+version = "0.2.0"
+description = "Reproducible IWSLT-17 English-to-German Transformer experiments"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dynamic = ["dependencies"]
+
+[project.scripts]
+mt-translate = "mt.translate:main"
+mt-export = "mt.export:main"
+
+[tool.setuptools]
+packages = ["mt"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

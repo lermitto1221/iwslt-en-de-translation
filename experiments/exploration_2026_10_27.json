@@ -1,0 +1,38 @@
+{
+  "data_dir": "artifacts/data",
+  "output_dir": "artifacts/exploration_2026_10_27",
+  "checkpoint": "artifacts/runs/quality_A42_12000/best.pt",
+  "baseline_checkpoint": "artifacts/runs/A42/best.pt",
+  "protocol": "artifacts/decode_protocol_seed42.json",
+  "sampling": {"seed": 20261027, "train_size": 10000},
+  "vectors": {
+    "batch_size": 16,
+    "pca_components": 50,
+    "kmeans_clusters": 5,
+    "kmeans_seed": 20261027,
+    "kmeans_n_init": 10,
+    "kmeans_max_iter": 300,
+    "kmeans_tol": 0.0001,
+    "silhouette_size": 2000,
+    "silhouette_seed": 20261027
+  },
+  "rare_max_count": 5,
+  "max_train_tokens": 128,
+  "small_cluster_size": 30,
+  "representatives_per_cluster": 3,
+  "methods": ["beam", "greedy"],
+  "quality_bins": {
+    "src_bpe": [20, 40, 80],
+    "src_rare_fraction": [0, 0.05, 0.15],
+    "src_fragmentation": [1.25, 1.5, 2.0]
+  },
+  "validation_reuse": {
+    "baseline_beam": "artifacts/runs/A42/validation_beam_alpha0.6",
+    "baseline_greedy": "artifacts/runs/A42/validation_greedy"
+  },
+  "lexical_profile": {
+    "minimum_cluster_document_count": 10,
+    "top_terms": 8,
+    "stopwords": "a an the and or but if to of in on at for from by with as is are was were be been being it its this that these those i you he she we they me my your our their his her us them so not do does did have has had will would can could should than then there here about what who how when where which all"
+  }
+}

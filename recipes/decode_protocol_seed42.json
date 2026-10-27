@@ -1,0 +1,8 @@
+{
+  "selection_split": "validation",
+  "beam_size": 4,
+  "length_penalty": 0.6,
+  "max_generation_tokens": 256,
+  "origin": "Compact fixed recipe derived from the historical seed42 validation-selected protocol; this file is not a new validation search or a historical metrics dump.",
+  "historical_full_protocol_sha256": "acd677dca2c076a8a95abbe489981d4b73fb038f7b16fea6d016a76b66f9025c"
+}

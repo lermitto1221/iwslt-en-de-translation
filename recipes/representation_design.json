@@ -1,0 +1,116 @@
+{
+  "local_timezone": "Asia/Shanghai",
+  "status": "reproduction_template_not_an_executed_or_frozen_run",
+  "source_plan": "docs/REPRODUCING.md",
+  "purpose": "Paired representation comparison after observing historical model and exploratory analysis results; not retrospective preregistration of history",
+  "representations": [
+    "bpe",
+    "unigram"
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "max_updates": 3000,
+  "fresh_training_runs": 6,
+  "tokenizers": {
+    "vocab_size": 8000,
+    "character_coverage": 1.0,
+    "normalization_rule_name": "nmt_nfkc",
+    "input_sentence_size": 0,
+    "shuffle_input_sentence": false,
+    "num_threads": 1,
+    "special_ids": {
+      "pad": 0,
+      "unk": 1,
+      "bos": 2,
+      "eos": 3
+    },
+    "training_corpus": "full cleaned official train English/German, one fixed tokenizer per representation; no validation/test fitting"
+  },
+  "common_training_set": "intersection of source and target lengths including BOS/EOS <=128 under both new tokenizers",
+  "batching": {
+    "token_budget": 4096,
+    "accum_steps": 4,
+    "common_envelope": "per sentence maximum source length and maximum target length across representations",
+    "order": "same seed+epoch shuffle and 512-row length pools, sorted by common envelope; materialize 3000 update schedules with original IDs and microbatch boundaries",
+    "controls_equal": [
+      "initial numeric model parameters within seed",
+      "all step source IDs and microbatch boundaries",
+      "sentences",
+      "optimizer updates",
+      "learning rate",
+      "validation schedule"
+    ],
+    "representation_dependent": [
+      "non-PAD source/target tokens",
+      "padded token cost",
+      "wall time",
+      "semantic meaning of vocabulary ID"
+    ]
+  },
+  "training_template": "config.json",
+  "label_smoothing": 0.1,
+  "validation": {
+    "every_updates": 500,
+    "sentences": 888,
+    "selection": "highest full validation greedy BLEU; exact ties retain earliest checkpoint"
+  },
+  "decode": {
+    "protocol": "artifacts/decode_protocol_seed42.json",
+    "methods": [
+      "greedy",
+      "beam"
+    ],
+    "beam_size": 4,
+    "length_penalty": 0.6,
+    "max_generation_tokens": 256,
+    "batch_size": 16,
+    "precision": "float32"
+  },
+  "evaluation": {
+    "splits": [
+      "validation",
+      "test"
+    ],
+    "test_sentences": 8079,
+    "validation_sentences": 888,
+    "bleu": "case-sensitive SacreBLEU tokenizer13a",
+    "chrf": "chrF2 char_order6 word_order0 beta2 case-sensitive",
+    "test_policy": "no checkpoint, model, tokenizer, budget, grouping or decoding changes based on test scores"
+  },
+  "grouping": {
+    "membership": "shared original sentence IDs for all conditions and methods; no representation-specific bin reassignment",
+    "source_words_boundaries": [
+      10,
+      20,
+      40
+    ],
+    "source_rare_fraction_boundaries": [
+      0,
+      0.05,
+      0.15
+    ],
+    "rare_definition": "casefold whitespace tokens, punctuation retained, frequency<=5 from original full cleaned train only",
+    "anchor_fragmentation_boundaries": [
+      1.25,
+      1.5,
+      2.0
+    ],
+    "anchor_tokenizer": "artifacts/data/spm.model, frozen historical tokenizer for group definitions only",
+    "anchor_tokenizer_sha256": "28ec9ce306c8e3537900272a3b4a82f0a2bd53b842199c1356bd52a0f103aa7d",
+    "validation_clusters": "reuse original exploration fixed seed42 PCA50/K5 assignments by original ID only; diagnostic, not a new fit",
+    "group_sizes": "n<30 marked small; empty=null; corpus metrics individually recomputed",
+    "sample_rule": "original test ID%400==0; validation lowest3 original IDs per frozen cluster; fixed for all representations/seeds/methods"
+  },
+  "statistics": "only complete strictly verified paired seeds; per-condition mean and sample SD ddof1, per-seed unigram minus BPE before aggregation, no significance/general advantage claims",
+  "next_method": "fixed revision Helsinki-NLP/opus-mt-en-de direct inference after six scratch runs; independent native-tokenizer/decoder protocol frozen before its test; no new training",
+  "excluded": [
+    "LoRA",
+    "k-fold CV",
+    "larger scratch model",
+    "training beyond3000 for new representation comparison"
+  ],
+  "execution": "GPU training/evaluation sequential; prepare CPU work may overlap; each run resumes only its matching complete last.pt; history preserved"
+}

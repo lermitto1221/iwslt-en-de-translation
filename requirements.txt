@@ -1,0 +1,5 @@
+torch==2.7.1
+sentencepiece==0.2.1
+sacrebleu==2.5.1
+pyarrow==20.0.0
+matplotlib==3.10.7
