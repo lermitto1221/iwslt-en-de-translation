@@ -1,8 +1,33 @@
 # IWSLT-17 English–German Translation
 
-[简体中文](README.zh-CN.md) · [Results](docs/RESULTS.md) · [Reproduction](docs/REPRODUCING.md) · [Third-party sources](docs/THIRD_PARTY.md)
+[Download trained model](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [简体中文](README.zh-CN.md) · [Results](docs/RESULTS.md) · [Reproduction](docs/REPRODUCING.md) · [Third-party sources](docs/THIRD_PARTY.md)
+
+[![CPU regression tests](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml)
 
 A PyTorch machine translation project focused on controlled experiments and error analysis. It trains a compact Transformer from scratch, compares training budgets and subword representations across three seeds, and evaluates a fixed pretrained OPUS-MT model as an external reference.
+
+## Try the trained model
+
+**[Download model ZIP (43.5 MB)](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip) · [Release notes](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip.sha256)**
+
+Clone or download this source repository, enter its root directory, and set up the dependencies using Python 3.13 on Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+Save the model ZIP in the repository root. Extract and translate:
+
+```powershell
+Expand-Archive -LiteralPath .\iwslt-en-de-seed42-12000-inference-v1.0.0.zip -DestinationPath .\models
+python -m mt.translate --bundle .\models\quality_A42_12000 --device cpu --method beam --text "Thank you very much."
+```
+
+Verified output: `Vielen Dank.` The bundle includes weights, its original tokenizer and decoder settings, so this demo requires no dataset download or retraining. `--bundle` points to the extracted model directory, not the ZIP.
+
+These weights are the single **seed42 / 12,000-update** model: beam test BLEU **22.889**. The **23.137 ± 0.321** reported below is the three-seed aggregate, not this individual checkpoint or an ensemble. Omissions and entity/long-sentence errors remain; see [Results](docs/RESULTS.md).
 
 ## Results at a glance
 
@@ -60,7 +85,7 @@ For CUDA setup, full experiments, evaluation, recovery and translation, follow [
 | [results/summary.json](results/summary.json) | Selected historical aggregate results |
 | [docs/RESULTS.md](docs/RESULTS.md) | Findings, experimental controls and interpretation limits |
 
-This is a source-and-results release. **Datasets, trained weights, tokenizer binaries, full predictions, local environments and large execution artifacts are not bundled.** Reproducing scores requires downloading the external resources and running the experiments. The selected JSON and figures document prior runs; they cannot independently reconstruct or re-audit every original prediction.
+This repository is a source-and-results release. **Datasets, trained weights, tokenizer binaries, full predictions, local environments and large execution artifacts are not stored in Git.** The trained seed42 inference bundle is available separately in [Releases](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0). Reproducing scores requires downloading the external resources and running the experiments. The selected JSON and figures document prior runs; they cannot independently reconstruct or re-audit every original prediction.
 
 ## Limitations and attribution
 

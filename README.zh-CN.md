@@ -1,8 +1,33 @@
 # IWSLT-17 英德机器翻译
 
-[English](README.md) · [实验结果](docs/RESULTS.md) · [复现说明](docs/REPRODUCING.md) · [第三方来源](docs/THIRD_PARTY.md)
+[模型下载](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [English](README.md) · [实验结果](docs/RESULTS.md) · [复现说明](docs/REPRODUCING.md) · [第三方来源](docs/THIRD_PARTY.md)
+
+[![CPU regression tests](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml)
 
 基于 PyTorch 的英→德机器翻译项目，重点是控制变量、结果稳定性与错误分析。项目从零训练小型 Transformer，使用三个随机种子研究训练预算和子词表示，并将固定的预训练 OPUS-MT 直接推理作为独立方法参照。
+
+## 模型下载与试译
+
+**[下载模型 ZIP（约 43.5 MB）](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip) · [发布说明](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [SHA-256 校验文件](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip.sha256)**
+
+先克隆或下载本仓库源码，进入仓库根目录；使用 Python 3.13 在 Windows PowerShell 中安装依赖：
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+将模型 ZIP 放到仓库根目录，然后解压并试译：
+
+```powershell
+Expand-Archive -LiteralPath .\iwslt-en-de-seed42-12000-inference-v1.0.0.zip -DestinationPath .\models
+python -m mt.translate --bundle .\models\quality_A42_12000 --device cpu --method beam --text "Thank you very much."
+```
+
+已验证输出：`Vielen Dank.` 模型包包含权重、原分词器和解码设置，试译无需下载训练数据或重新训练。`--bundle` 指向解压后的模型目录，不是 ZIP 文件。
+
+下载包是 **seed=42、12,000 次更新**的单模型，测试 Beam BLEU 为 **22.889**；下文 **23.137 ± 0.321** 是三个种子的汇总，不是这个单模型或集成模型的成绩。漏译、实体和长句错误仍存在，详见[结果说明](docs/RESULTS.md)。
 
 ## 主要结果
 
@@ -50,7 +75,7 @@ CUDA、完整实验、恢复、评测和翻译入口见 [复现说明](docs/REPR
 
 ## 发布范围
 
-本仓库包含代码、配置、便携配方、精选图表和[聚合结果 JSON](results/summary.json)。**不打包数据集、模型权重、分词器二进制、完整预测、本地依赖环境及大型运行产物。** 复现实验需要自行下载资源并运行；精选汇总不能代替原始预测逐条审计。
+本仓库包含代码、配置、便携配方、精选图表和[聚合结果 JSON](results/summary.json)。**源码仓库不包含数据集、模型权重、分词器二进制、完整预测、本地依赖环境及大型运行产物。** 已训练的 seed42 推理包在 [Releases](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) 单独提供。 复现实验需要自行下载资源并运行；精选汇总不能代替原始预测逐条审计。
 
 三种子重复不是交叉验证；LoRA 和 k-fold CV 尚未执行。验证诊断使用了参与模型选择的数据。总体指标提高不代表逐句正确，漏译、否定反转、实体及长句错误仍存在。跨日期耗时没有完全控制电源、温度和频率，不能单独作为速度优势的因果证据。
 
