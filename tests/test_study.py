@@ -44,7 +44,8 @@ class StudyGateTests(unittest.TestCase):
         return study.freeze_stage(self.root, path, [config], decision)
 
     def test_paths_cannot_escape_or_equal_study_root(self):
-        self.assertEqual(study.inside(self.root, self.root / "runs" / "new"), self.root / "runs" / "new")
+        self.assertEqual(study.inside(self.root, self.root / "runs" / "new"),
+                         (self.root / "runs" / "new").resolve())
         for path in (self.root, self.root.parent / "historical", self.root / ".." / "outside"):
             with self.assertRaises(ValueError):
                 study.inside(self.root, path)
@@ -186,7 +187,8 @@ class StudyGateTests(unittest.TestCase):
         self.assertEqual(child.call_count, 2)
         training = child.call_args_list[0].args[3]
         self.assertIn("--resume", training)
-        self.assertEqual(training[training.index("--resume") + 1], run / "last.pt")
+        self.assertEqual(Path(training[training.index("--resume") + 1]).resolve(),
+                         (run / "last.pt").resolve())
         evaluation = child.call_args_list[1].args[3]
         self.assertEqual(evaluation[evaluation.index("--split") + 1], "holdout")
         self.assertEqual(evaluation[evaluation.index("--method") + 1], "greedy")
