@@ -59,7 +59,7 @@ Increasing the scratch budget gave a paired **+5.992 ± 0.232 BLEU**. The repres
 
 Three-fold CV keeps talks and duplicate normalized source sentences within the same fold and fits BPE separately on each training fold. It selects label smoothing **0.1**, but its mean greedy BLEU lead is only **0.021**, one fold prefers 0, and chrF2 prefers 0. Three fresh 3,000-update retrainings reproduce the corresponding historical models; CV adds selection evidence without a new quality gain.
 
-LoRA trains **294,912 / 74,705,408 parameters (0.395%)** and gains **0.948 Beam BLEU** over the fixed base. Full fine-tuning trains **73,886,208 / 74,410,496 parameters (99.295%)** and gains **1.530**. Measured training peak allocation is about **2.53 / 3.52 GiB**, respectively. Both complete matched 3,000-update trajectories, but validation selects LoRA at steps 1,000–2,000 and full models at step 3,000; the evaluated models therefore have different prefix exposures.
+LoRA trains **294,912 / 74,705,408 parameters (0.395%)** and achieves **33.450 ± 0.052 Beam BLEU**, compared with **34.032 ± 0.094** for full fine-tuning (three-seed mean ± sample SD). The within-seed LoRA-minus-full difference is **−0.582 ± 0.064 BLEU**. In this setup, mean training peak allocation is **2.535 vs 3.521 GiB**, about **28% lower** for LoRA. Both complete matched 3,000-update trajectories, but validation selects LoRA at steps 1,000–2,000 and full models at step 3,000; the evaluated models therefore have different prefix exposures.
 
 ![Same-base adaptation quality](results/figures/adaptation_quality.png)
 
@@ -75,7 +75,9 @@ The 2026-10-28 study completed **19 trainings, 57,000 net updates and 102 comple
 - Native Marian LoRA and full fine-tuning, shared effective-batch plans, validation-based learning-rate/checkpoint selection and strict recovery. LoRA is implemented in this project and does not require PEFT.
 - Length, lexical-rarity and subword-fragmentation diagnostics; exploratory sentence-vector analysis with explicit limitations.
 
-Before the CV/adaptation study, local work completed **15 scratch training runs** and passed **194 regression tests**. The expanded study's local acceptance record passed **349 tests** and preserved **1,393 historical file fingerprints**. These are recorded research-workspace observations. Test results for this curated copy are recorded separately in `RELEASE_CHECKS.json`; its GitHub Actions badge only describes commits actually run online.
+The public source package passed **359 CPU regression checks: 349 research checks + 10 portable-recipe checks**. The standalone inference bundles separately passed **19 focused runtime checks**, which are not included in the 359. The explicit records are in [RELEASE_CHECKS.json](RELEASE_CHECKS.json), under `regression_tests` and `post_release_documentation_update.bundle_runtime_checks`.
+
+The original expanded study's **349-test** acceptance record and **1,393 unchanged historical file fingerprints** are retained as historical research evidence. Check counts describe the named suites, not the number of times tests were rerun. The GitHub Actions badge describes the commits actually evaluated online.
 
 ## Quick start
 

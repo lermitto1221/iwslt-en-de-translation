@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "scope": "Raw file bytes in this prepared documentation snapshot; excludes this manifest itself. Git checkout may normalize text line endings; execution plans bind actual local bytes.",
-  "baseline_commit": "a359068f12a08f03ca3671efd8941f5266e2d11f",
+  "scope": "Raw prepared repository-file bytes; manifest excludes itself. Git may normalize text line endings at checkout. Execution plans bind actual local bytes.",
+  "baseline_commit": "fb9773c92dae8db8ece390f607fa4c86b324f0f2",
   "files": {
     ".gitattributes": {
       "sha256": "1113ee41d41bbf07a0f09e6a4ee11e9e6b8ec208d6ab58d34e9d86be605b8432",
@@ -296,20 +296,20 @@
       "bytes": 1305
     },
     "PUBLIC_UPDATE.json": {
-      "sha256": "66f82c043f2ba1a2155c4a2935a0664a6bf59ca381128b98f9b947cb05c40b83",
-      "bytes": 1106
+      "sha256": "8b163b19206de687c74c808c4478640c58f507268995b43d551cb5e8cf11ddb7",
+      "bytes": 718
     },
     "pyproject.toml": {
       "sha256": "1694c670ab4d64d8dd8abf1777f630149ca969b6aa3b2944ff78755b6767237c",
       "bytes": 498
     },
     "README.md": {
-      "sha256": "366c9efaf87c5b0a19594d1a8004066806415a47f663ad41d62b6ce396840dfd",
-      "bytes": 12770
+      "sha256": "7865c59e30486759d09ef8440fd30bb6b90e8823a56cb7f23ce5e9069b0d8dd0",
+      "bytes": 13116
     },
     "README.zh-CN.md": {
-      "sha256": "e3169155ed9199889eecebc4a4dcb57093d359547995bd90dee53838c7c59387",
-      "bytes": 10585
+      "sha256": "3a3e7d5bd8d20418c8d1b9c7a1462bb8fe3b84aee752d443a5aa477c4e0f9eac",
+      "bytes": 10966
     },
     "recipes/cv_adaptation_design.json": {
       "sha256": "15e1842a2687ade215a65fd15d2e7b7fdba20c18bfbc53943a6b1ad445b5e416",

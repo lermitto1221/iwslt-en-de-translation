@@ -1,13 +1,8 @@
 {
   "schema_version": 1,
-  "scope": "Post-release documentation delta against observed main commit a359068f12a08f03ca3671efd8941f5266e2d11f",
-  "upload_only_after_release": "v1.1.0",
-  "changed_or_new_files": 9,
+  "scope": "README evidence-scope clarification against observed main fb9773c92dae8db8ece390f607fa4c86b324f0f2",
+  "changed_or_new_files": 4,
   "files": [
-    {
-      "path": "PUBLIC_UPDATE.json",
-      "status": "modified"
-    },
     {
       "path": "README.md",
       "status": "modified"
@@ -17,30 +12,14 @@
       "status": "modified"
     },
     {
-      "path": "RELEASE_CHECKS.json",
+      "path": "PUBLIC_UPDATE.json",
       "status": "modified"
     },
     {
       "path": "RELEASE_MANIFEST.json",
       "status": "modified"
-    },
-    {
-      "path": "docs/CV_ADAPTATION.md",
-      "status": "modified"
-    },
-    {
-      "path": "docs/PUBLISHING.md",
-      "status": "modified"
-    },
-    {
-      "path": "docs/RESULTS.md",
-      "status": "modified"
-    },
-    {
-      "path": "docs/UPLOAD_UPDATE.zh-CN.md",
-      "status": "modified"
     }
   ],
   "deleted_files": [],
-  "instructions": "Preserve these repository-relative paths. This delta contains no weights or workflow/source changes."
+  "note": "Documentation clarifies359=349 inherited research+10 portable recipe checks;19 independent bundle checks are separate. No test-count, experiment-result or model-weight changes."
 }
