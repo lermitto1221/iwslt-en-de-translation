@@ -126,7 +126,8 @@ class PublicCVAdaptationRecipeTests(unittest.TestCase):
         self.assertEqual(result["effective_batch_size"], 64)
         self.assertEqual(result["train_precision"], "float16")
         self.assertEqual(result["generation"], values[1]["generation"])
-        self.assertEqual(Path(result["study_plan"]), self.root / "plan.json")
+        # The future file may not exist; normalize Windows 8.3 aliases first.
+        self.assertEqual(Path(result["study_plan"]).resolve(), (self.root / "plan.json").resolve())
         self.assertFalse((self.root / "plan.json").exists())
 
     def test_native_rejects_failed_or_stale_resource_identity(self):
