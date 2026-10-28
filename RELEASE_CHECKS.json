@@ -1,36 +1,61 @@
 {
+  "schema_version": 2,
+  "snapshot": "cv_adaptation_source_update_2026_10_28",
   "status": "passed",
+  "prepared_at_utc": "2026-10-28T15:04:54.860757+00:00",
   "regression_tests": {
-    "executed": 194,
-    "passed": 194,
-    "skipped": 0,
-    "command": "python -m unittest discover -s tests -v",
-    "execution_note": "The copy was tested on Windows/Python 3.13 with the original validated dependency environment and its compatible launcher; no dataset download or formal experiment rerun was required.",
-    "local_verification_log_sha256": "521167d6dbb466553abf8bfb0936c3538b5247897a4e44630413f98ab62e467e"
+    "started_at_utc": "2026-10-28T15:02:36.615860+00:00",
+    "completed_at_utc": "2026-10-28T15:02:51.653846+00:00",
+    "tests_run": 359,
+    "passed": 359,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "seconds": 15.037988400000131,
+    "cpu_only": true,
+    "python": "3.13.14",
+    "torch": "2.7.1+cu128",
+    "transformers": "4.56.2",
+    "portalocker": "4.4.0",
+    "log_sha256": "6ff1e62b44d8461fea1977aaffbd17c2cc8253cf9fe64e3b4099fd6a64dcb9d5",
+    "changed_during_tests": [],
+    "environment_scope": "Staged public source imported from its own root using the validated local dependency environment; no clean network installation or GitHub run performed."
+  },
+  "test_scope": "349 inherited research regression checks plus 10 new portable-recipe checks; run from this curated copy with no dataset/model download.",
+  "compatibility_fixes_preserved": {
+    "tests/test_inference.py": {
+      "unchanged_from_previous_public_copy": true,
+      "sha256": "d3a3bd2c3120b4a233e086740c044c50793cb9b5300f97bfba779e1021cd1244"
+    },
+    "tests/test_resume.py": {
+      "unchanged_from_previous_public_copy": true,
+      "sha256": "1630af558411728f3896ce8db249b0fbe3e1fb3a749aad9f56062db815605d5e"
+    }
   },
   "public_copy_changes": {
-    "training_model_decoding_sources": "Copied unchanged.",
-    "self_contained_resume_test": "Synthetic temporary fixtures replace a dependency on private local IWSLT files; the real interruption/recovery assertions remain.",
-    "documentation": "New English/Chinese readmes, selected results, reproduction and publishing instructions.",
-    "recipes": "Portable fixed historical specifications; new execution evidence is created on the executing machine.",
-    "license": "No project-wide code license selected."
+    "source": "10 CV/adaptation/research modules added; existing model/training/decoding modules unchanged.",
+    "tests": "Seven research test modules and ten portable recipe checks added; prior Windows/path and synthetic-fixture fixes retained.",
+    "reproduction": "Path-free recipe and staged local preparation for lower-level training; historical whole-study acceptance and cluster evidence are documented separately.",
+    "results": "Selected numerical CV/adaptation statistics, per-seed results, costs, five plots and explanatory documents."
   },
-  "additional_checks": {
-    "recipe_creation_and_fresh_hashes": "passed",
-    "existing_design_overwrite_rejected": "passed",
-    "conflicting_protocol_rejected": "passed",
-    "local_absolute_path_and_common_secret_scan": "no findings",
-    "github_actions": "Workflow included, not executed on GitHub."
+  "package_checks": {
+    "command": "python scripts/verify_public_package.py",
+    "results": "Passed: relative links, common privacy/secret patterns, file exclusions/size, historical aggregate and new CV/adaptation arithmetic.",
+    "png_metadata": "All nine PNGs inspected; only Matplotlib software/dpi metadata, no personal path or account metadata found.",
+    "privacy_scope": "Curated text/source files and selected image metadata; pattern/manual checks are not a guarantee against every possible private identifier."
   },
-  "excluded": [
-    "datasets",
-    "trained weights",
-    "tokenizer binaries",
-    "full predictions/references",
-    "local environments",
-    "downloaded dependencies",
-    "original machine-local frozen plans",
-    "course source prompt"
-  ],
-  "publication": "Local copy only; no GitHub repository has been created or uploaded by this task."
+  "publication": {
+    "source_update": "Prepared locally; not uploaded or pushed by this task.",
+    "github_actions": "Workflow updated for optional native dependencies and zero skipped tests. This new snapshot has not run on GitHub; inspect its actual commit after upload.",
+    "existing_model_release": "v1.0.0 retains the scratch seed42 model with Beam BLEU22.889.",
+    "adapted_model_release": "Not created. Adapted learned-state files require separate portable export and inference packaging."
+  },
+  "limits": [
+    "Dependencies were not freshly installed from the network; tests used the validated local environment.",
+    "The 19-training research experiment was not rerun while preparing this copy.",
+    "No dataset, model weights, full predictions, environment, private execution plan or credentials included.",
+    "No project-wide code license selected."
+  ]
 }

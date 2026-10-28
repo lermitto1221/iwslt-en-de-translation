@@ -13,3 +13,4 @@ idna==3.11
 tqdm==4.67.1
 joblib==1.5.2
 click==8.3.0
+portalocker==4.4.0

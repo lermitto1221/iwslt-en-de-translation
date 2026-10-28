@@ -29,10 +29,15 @@ python -m mt.data --out artifacts/data
 python -m mt.tokenizer --data-dir artifacts/data --vocab-size 8000
 python -m mt.checks --data-dir artifacts/data --config smoke.json
 python -m mt.train --config smoke.json --smoke
+python -m pip install -r requirements-pretrained.txt -c requirements.txt
 python -m unittest discover -s tests -v
 ```
 
 Data access requires a network connection and compliance with upstream terms. The loader verifies the pinned source files and writes manifests. The tokenizer is fitted only on training data. The smoke run is a CPU diagnostic and its score is not a formal result. Completed directories are protected; to rerun a smoke experiment, use a new `run_dir` in a separate configuration.
+
+The expanded suite uses the optional pretrained dependencies for its native Marian label-shifting check; install them to run the complete suite without skips. No model download is required for these CPU tests. Results for this curated copy are recorded in `RELEASE_CHECKS.json`.
+
+For the new grouped CV and same-base LoRA/full fine-tuning workflow, use [REPRODUCING_CV_ADAPTATION.md](REPRODUCING_CV_ADAPTATION.md). The remaining sections below document the earlier scratch, representation and direct-inference recipes.
 
 ## 2. Initialize portable recipes
 

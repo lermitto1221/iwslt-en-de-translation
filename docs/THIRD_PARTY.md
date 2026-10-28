@@ -16,11 +16,11 @@ The repository does **not** include sentence corpora, raw Parquet files or full 
 - Exact model-card revision: [6183067f769a302e3861815543b9f312c71b0ca4](https://huggingface.co/Helsinki-NLP/opus-mt-en-de/blob/6183067f769a302e3861815543b9f312c71b0ca4/README.md).
 - Upstream project: [OPUS-MT training resources](https://github.com/Helsinki-NLP/OPUS-MT-train).
 
-No pretrained weights or upstream tokenizer files are bundled. The optional inference pipeline downloads the fixed revision and records hashes locally. Results here are direct inference using an externally pretrained model, not evidence that this project trained OPUS-MT. Pretraining/evaluation overlap cannot be excluded from available provenance.
+No pretrained weights or upstream tokenizer files are bundled in this source copy. The optional pipelines download the fixed revision and record hashes locally. Results distinguish the unchanged externally pretrained base from project-trained LoRA and full fine-tuning adaptations; they do not imply this project performed the original OPUS-MT pretraining. Pretraining/evaluation overlap cannot be excluded from available provenance. The existing v1.0.0 download is a separate scratch-model bundle, not OPUS-MT or a newly released adaptation.
 
 ## Software and methods
 
-Direct dependencies and versions are recorded in [requirements.txt](../requirements.txt); optional pretrained inference dependencies are in [requirements-pretrained.txt](../requirements-pretrained.txt). Their licenses and notices remain those supplied by each upstream project.
+Direct dependencies and versions are recorded in [requirements.txt](../requirements.txt); optional pretrained inference/adaptation dependencies are in [requirements-pretrained.txt](../requirements-pretrained.txt). Install core requirements first, then the optional file with `-c requirements.txt` to retain pinned core versions. LoRA is implemented in this project's `mt/adapt_model.py`; PEFT is not required. Dependencies' licenses and notices remain those supplied by each upstream project.
 
 - [PyTorch](https://github.com/pytorch/pytorch): tensor operations, model building and optimization.
 - [SentencePiece](https://github.com/google/sentencepiece): BPE and unigram subword models.
@@ -28,7 +28,7 @@ Direct dependencies and versions are recorded in [requirements.txt](../requireme
 - [Apache Arrow / PyArrow](https://github.com/apache/arrow): reading the pinned Parquet source.
 - [Matplotlib](https://github.com/matplotlib/matplotlib): figures.
 - [NumPy](https://github.com/numpy/numpy): numerical analysis.
-- [Hugging Face Transformers](https://github.com/huggingface/transformers): native Marian pretrained inference.
+- [Hugging Face Transformers](https://github.com/huggingface/transformers): native Marian pretrained inference and adaptation base.
 
 Relevant research:
 

@@ -1,28 +1,34 @@
 # Publishing this copy
 
-Suggested repository name: **iwslt-en-de-translation**.
+Existing repository: [lermitto1221/iwslt-en-de-translation](https://github.com/lermitto1221/iwslt-en-de-translation).
 
-This folder is a curated source-and-results copy. The original research workspace remains separate. No remote repository is configured in this copy, and preparing the folder does not upload it.
+This folder is a curated source-and-results copy. The original research workspace remains separate. Preparing or validating this folder does not upload it. The original v1.0.0 source/model release remains available; this update adds completed grouped CV and same-base adaptation research without replacing that model ZIP.
 
-## Upload with Git
+## Update the existing repository
 
-Create an empty repository on GitHub with the desired visibility. For the first push, leave GitHub's automatic README, license and gitignore options empty because this folder already contains its documentation and ignore rules.
+Review `RELEASE_CHECKS.json` and run the package checks before publishing. Keep the existing folder structure when transferring modified/new files. Use either the GitHub upload interface or a clone of the existing repository; do not create another repository or initialize a replacement history for this update.
 
-Open a terminal in this folder and run:
+For a local clone, copy the curated update into the checkout, inspect all changes, then commit/push:
 
 ```powershell
 python scripts/verify_public_package.py
-git init -b main
-git add .
 git status --short
-git commit -m "Publish translation experiments and reproducibility tools"
-git remote add origin https://github.com/YOUR_USERNAME/iwslt-en-de-translation.git
-git push -u origin main
+git diff --stat
+git add .
+git diff --cached --stat
+git commit -m "Add grouped CV and same-base adaptation study"
+git push origin main
 ```
 
-Replace `YOUR_USERNAME` with the repository owner. Git may ask you to configure your commit name/email and sign in. Keep credentials out of committed files.
+These commands assume an already configured clone and do not configure identity or credentials. Inspect staged files before the commit. If using GitHub's web interface, upload the changed/new source and documentation at the matching paths, and remove obsolete files only if the update inventory explicitly requires it. Do not drag an extra enclosing folder into the repository root.
 
-The included GitHub Actions workflow runs the CPU regression suite on Windows with Python 3.13. This workflow has not been run on GitHub as part of preparing the local copy.
+After the upload, check the actual commit's Actions run. The earlier online CPU workflow passed for the previous version. The expanded research workspace separately passed 349 tests; this folder's current local suite and counts are in `RELEASE_CHECKS.json`. Preparing the update does not establish that its new online CI has run.
+
+## Model assets remain separate
+
+The existing [v1.0.0 model Release](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) contains the scratch seed42/12,000-update model with 22.889 Beam BLEU. Do not label it with the new adaptation aggregate scores. New LoRA/full inference packaging and a separate asset release are outside this source update. A future adapter release must identify its required fixed base, adapter format, chosen seed and that single model's actual score.
+
+The included GitHub Actions workflow runs the CPU regression suite on Windows with Python 3.13. The expanded suite installs `requirements.txt` first and then `requirements-pretrained.txt` constrained by the core requirements. Local checks and previous online runs must be reported separately.
 
 ## What belongs in Git
 
