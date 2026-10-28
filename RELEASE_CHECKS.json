@@ -2,10 +2,10 @@
   "schema_version": 2,
   "snapshot": "cv_adaptation_source_update_2026_10_28",
   "status": "passed",
-  "prepared_at_utc": "2026-10-28T15:04:54.860757+00:00",
+  "prepared_at_utc": "2026-10-28T15:38:33.114425+00:00",
   "regression_tests": {
-    "started_at_utc": "2026-10-28T15:02:36.615860+00:00",
-    "completed_at_utc": "2026-10-28T15:02:51.653846+00:00",
+    "started_at_utc": "2026-10-28T15:37:19.283991+00:00",
+    "completed_at_utc": "2026-10-28T15:37:42.991222+00:00",
     "tests_run": 359,
     "passed": 359,
     "failures": 0,
@@ -13,13 +13,13 @@
     "skips": 0,
     "expected_failures": 0,
     "unexpected_successes": 0,
-    "seconds": 15.037988400000131,
+    "seconds": 23.70723799999996,
     "cpu_only": true,
     "python": "3.13.14",
     "torch": "2.7.1+cu128",
     "transformers": "4.56.2",
     "portalocker": "4.4.0",
-    "log_sha256": "6ff1e62b44d8461fea1977aaffbd17c2cc8253cf9fe64e3b4099fd6a64dcb9d5",
+    "log_sha256": "910447f26b0f7e2fedc56ddf2336cc0f00dfb44c1d9122799b59bdd238805a2d",
     "changed_during_tests": [],
     "environment_scope": "Staged public source imported from its own root using the validated local dependency environment; no clean network installation or GitHub run performed."
   },
@@ -47,15 +47,126 @@
     "privacy_scope": "Curated text/source files and selected image metadata; pattern/manual checks are not a guarantee against every possible private identifier."
   },
   "publication": {
-    "source_update": "Prepared locally; not uploaded or pushed by this task.",
-    "github_actions": "Workflow updated for optional native dependencies and zero skipped tests. This new snapshot has not run on GitHub; inspect its actual commit after upload.",
+    "source_update": "Source and corrected tests were uploaded by the owner; this additional release-documentation delta is staged for a later owner upload.",
+    "github_actions": "Observed main commit a359068 passed run40719896072. That result applies to the observed source/test baseline; this documentation-only upload has not run online yet.",
     "existing_model_release": "v1.0.0 retains the scratch seed42 model with Beam BLEU22.889.",
-    "adapted_model_release": "Not created. Adapted learned-state files require separate portable export and inference packaging."
+    "adapted_model_release": "Full/LoRA seed42 standalone v1.1.0 assets are locally prepared and verified. The documentation links are for use after the owner publishes the assets."
   },
   "limits": [
     "Dependencies were not freshly installed from the network; tests used the validated local environment.",
     "The 19-training research experiment was not rerun while preparing this copy.",
     "No dataset, model weights, full predictions, environment, private execution plan or credentials included.",
     "No project-wide code license selected."
-  ]
+  ],
+  "workflow_runtime_migration": {
+    "checked_at_utc": "2026-10-28T15:33:56.693157+00:00",
+    "yaml_parse_passed": true,
+    "only_two_action_versions_changed": true,
+    "actions": {
+      "checkout": "v6",
+      "setup-python": "v6"
+    },
+    "upstream_runtime": "node24",
+    "upstream_sources": [
+      "https://github.com/actions/checkout/blob/v6/action.yml",
+      "https://github.com/actions/setup-python/blob/v6/action.yml"
+    ],
+    "workflow_sha256": "dc99e1d43aa8de27ffceec1c38b9277015dde0b808a7ec927a2ce31ab180e367",
+    "verification_scope": "YAML structure and official Node24 action manifests checked. Hosting the workflow requires a new GitHub run; changing versions does not diagnose the separate CPU test failure."
+  },
+  "windows_short_path_fix": {
+    "cause": "Windows 8.3 temporary-directory aliases differ textually from their canonical long paths.",
+    "changed_files": [
+      "tests/test_public_cv_adaptation_recipe.py",
+      "tests/test_study.py"
+    ],
+    "scope": "Three path assertions normalize both destinations; model/training code and asserted safety behavior unchanged.",
+    "before_fix": {
+      "phase": "before_fix",
+      "real_windows_short_alias": true,
+      "same_temp_directory_identity": true,
+      "short_path_text_differs_from_canonical": true,
+      "tests_run": 3,
+      "failures": 3,
+      "errors": 0,
+      "skips": 0,
+      "failed_test_ids": [
+        "test_public_cv_adaptation_recipe.PublicCVAdaptationRecipeTests.test_native_template_carries_actual_common_resource_settings",
+        "test_study.StudyGateTests.test_cv_controller_only_runs_holdout_and_resumes_own_last",
+        "test_study.StudyGateTests.test_paths_cannot_escape_or_equal_study_root"
+      ]
+    },
+    "after_fix": {
+      "phase": "after_fix",
+      "real_windows_short_alias": true,
+      "same_temp_directory_identity": true,
+      "short_path_text_differs_from_canonical": true,
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "failed_test_ids": []
+    },
+    "full_suite_temp_directory_mode": "real_windows_8_3_alias",
+    "github_run_requiring_repair": "https://github.com/lermitto1221/iwslt-en-de-translation/actions/runs/40716068134",
+    "online_repair_verification": "Observed corrected main a359068 passed GitHub Actions run40719896072."
+  },
+  "post_release_documentation_update": {
+    "prepared_at_utc": "2026-10-28T16:29:22.441446+00:00",
+    "baseline_commit": "a359068f12a08f03ca3671efd8941f5266e2d11f",
+    "upload_order": "Upload this document delta only after both v1.1.0 model ZIPs and their checksums have been published.",
+    "source_change_scope": "Documentation and publication metadata only; no model/training/test/recipe code changed from the observed green baseline.",
+    "model_assets": [
+      {
+        "method": "full",
+        "seed": 42,
+        "selected_update": 3000,
+        "filename": "iwslt-en-de-full-seed42-inference-v1.1.0.zip",
+        "bytes": 277564485,
+        "sha256": "722b09d01b13a2da881cd474e92181918546068fd30c5e926ba891afd763c11a",
+        "archive_root": "full_seed42",
+        "single_model_test": {
+          "beam_bleu": 33.92436728621673,
+          "beam_chrf2": 60.380788749927994
+        },
+        "requires_base_download": false,
+        "state_sha256": "279cddf8ff72c72d632d5d5df1591a0a961c12265104a82e09367c8c42e9f529",
+        "manifest_sha256": "897b1cd32b8febc2eb86fdf1e8b80021c4f1197ec492ee9f139abaa269195cea",
+        "zip_crc_verified": true,
+        "privacy_patterns_no_findings": true
+      },
+      {
+        "method": "lora",
+        "seed": 42,
+        "selected_update": 1500,
+        "filename": "iwslt-en-de-lora-seed42-inference-v1.1.0.zip",
+        "bytes": 2339896,
+        "sha256": "10f55709b3f22b1ee102390a739792ae318156484e638a19fcccd62a09b2c44e",
+        "archive_root": "lora_seed42",
+        "single_model_test": {
+          "beam_bleu": 33.40195525844251,
+          "beam_chrf2": 59.97563849902925
+        },
+        "requires_base_download": true,
+        "state_sha256": "9210a726a0fed96d65e79241a86945113e4a6755d1c559453483aabf049ffa62",
+        "manifest_sha256": "815c799b3add035a5982955070cc7cf9415fc8bb2d4ff218984186084ab7c7dd",
+        "zip_crc_verified": true,
+        "privacy_patterns_no_findings": true
+      }
+    ],
+    "bundle_runtime_checks": {
+      "tests_run": 19,
+      "passed": 19,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "seconds": 3.2255801000001156,
+      "scope": "Independent portable inference runtime checks; no download/GPU/training."
+    },
+    "source_cpu_ci": {
+      "commit": "a359068f12a08f03ca3671efd8941f5266e2d11f",
+      "conclusion": "success",
+      "run": "https://github.com/lermitto1221/iwslt-en-de-translation/actions/runs/40719896072"
+    }
+  }
 }

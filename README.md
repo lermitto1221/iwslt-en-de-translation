@@ -1,33 +1,43 @@
 # IWSLT-17 English–German Translation
 
-[Download trained model](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [简体中文](README.zh-CN.md) · [Results](docs/RESULTS.md) · [CV and adaptation study](docs/CV_ADAPTATION.md) · [Reproduction](docs/REPRODUCING.md) · [Third-party sources](docs/THIRD_PARTY.md)
+[Download trained models — v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) · [简体中文](README.zh-CN.md) · [Results](docs/RESULTS.md) · [CV and adaptation study](docs/CV_ADAPTATION.md) · [Reproduction](docs/REPRODUCING.md) · [Third-party sources](docs/THIRD_PARTY.md)
 
 [![CPU regression tests](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml)
 
 A PyTorch machine translation project focused on controlled experiments and error analysis. It trains a compact Transformer from scratch, compares training budgets and subword representations across three seeds, performs grouped cross-validation for parameter selection, and compares direct inference, LoRA and full-parameter fine-tuning on the same OPUS-MT base.
 
-## Try the trained model
+## Download and try the adapted models
 
-**[Download model ZIP (43.5 MB)](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip) · [Release notes](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip.sha256)**
+The [v1.1.0 Release](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) provides two independent inference bundles. Each includes `translate.py`, `inference.py`, pinned requirements, the native tokenizer/configuration and usage instructions. **No cloned repository, training data or retraining is needed.** Sizes below are decimal MB.
 
-Clone or download this source repository, enter its root directory, and set up the dependencies using Python 3.13 on Windows PowerShell:
+| Download | ZIP size | Single seed42 test Beam BLEU | Runtime requirement |
+|---|---:|---:|---|
+| [Full fine-tuning ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip.sha256) | **277.6 MB** | **33.924** | Complete weights included; offline translation after dependency installation |
+| [LoRA ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip.sha256) | **2.34 MB** | **33.402** | First use downloads the pinned original base weight, about 298 MB |
+
+For the main full-model demo, download the full ZIP and compare its SHA-256 with the accompanying checksum file. From the download directory, use Python 3.13 and Windows PowerShell:
 
 ```powershell
+Expand-Archive -LiteralPath .\iwslt-en-de-full-seed42-inference-v1.1.0.zip -DestinationPath .\models
+Set-Location .\models\full_seed42
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe translate.py --device cpu --method beam --offline --text "Thank you very much."
 ```
 
-Save the model ZIP in the repository root. Extract and translate:
+The LoRA ZIP extracts to `lora_seed42`; use its bundled README and the same installation steps, omitting `--offline` on the first run so the fixed base can be downloaded. An existing original base can be supplied with `--base-model-dir PATH --offline`. Its ID, revision and weight SHA-256 are checked. This is the project's own LoRA format, **not a PEFT adapter**; the 2.34 MB ZIP is not the total deployment size.
+
+The downloadable seed42 checkpoints score **33.924 / 33.402** for full/LoRA. The **34.032 ± 0.094 / 33.450 ± 0.052** values below are three-seed means ± sample SD, not these individual checkpoints or ensembles. Recorded test scores use the original FP32/GPU protocol; CPU export checks do not promise bitwise equality across hardware. Inputs over 512 native source tokens are rejected without truncation, and translation errors remain.
+
+### Older scratch-model demo
+
+The separate [v1.0.0 Release](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) still provides the 43.5 MB scratch seed42/12,000-update bundle, scoring **22.889 Beam BLEU**. Its **23.137 ± 0.321** research score is the three-seed mean. With this source repository's dependencies installed and that old ZIP extracted under `models`, its original command remains:
 
 ```powershell
-Expand-Archive -LiteralPath .\iwslt-en-de-seed42-12000-inference-v1.0.0.zip -DestinationPath .\models
 python -m mt.translate --bundle .\models\quality_A42_12000 --device cpu --method beam --text "Thank you very much."
 ```
 
-Verified output: `Vielen Dank.` The bundle includes weights, its original tokenizer and decoder settings, so this demo requires no dataset download or retraining. `--bundle` points to the extracted model directory, not the ZIP.
-
-These weights are the single **seed42 / 12,000-update** model: beam test BLEU **22.889**. The **23.137 ± 0.321** reported below is the three-seed aggregate, not this individual checkpoint or an ensemble. Omissions and entity/long-sentence errors remain; see [Results](docs/RESULTS.md).
+The new v1.1.0 adapted bundles use their own `translate.py` entry point. See [Results](docs/RESULTS.md) for scoring scope and limitations.
 
 ## Results at a glance
 
@@ -53,7 +63,7 @@ LoRA trains **294,912 / 74,705,408 parameters (0.395%)** and gains **0.948 Beam 
 
 ![Same-base adaptation quality](results/figures/adaptation_quality.png)
 
-The 2026-10-28 study completed **19 trainings, 57,000 net updates and 102 complete evaluation passes**. Resource probes and replay after an interruption are accounted for separately. See [study design and limitations](docs/CV_ADAPTATION.md), [portable reproduction](docs/REPRODUCING_CV_ADAPTATION.md) and [selected machine-readable results](results/cv_adaptation.json). Adaptation weights are not included in this source update or in the existing v1.0.0 model ZIP.
+The 2026-10-28 study completed **19 trainings, 57,000 net updates and 102 complete evaluation passes**. Resource probes and replay after an interruption are accounted for separately. See [study design and limitations](docs/CV_ADAPTATION.md), [portable reproduction](docs/REPRODUCING_CV_ADAPTATION.md) and [selected machine-readable results](results/cv_adaptation.json). Adaptation weights are provided separately in [v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0); they are excluded from this source repository and the old v1.0.0 scratch-model ZIP.
 
 ## What is implemented
 
@@ -108,7 +118,7 @@ For fresh CV/adaptation preparation and the lower-level commands, use [REPRODUCI
 | [results/cv_adaptation.json](results/cv_adaptation.json) | Curated CV, adaptation and resource results from the completed study |
 | [docs/RESULTS.md](docs/RESULTS.md) | Findings, experimental controls and interpretation limits |
 
-This repository is a source-and-results release. **Datasets, trained weights, tokenizer binaries, full predictions, local environments and large execution artifacts are not stored in Git.** The trained seed42 inference bundle is available separately in [Releases](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0). Reproducing scores requires downloading the external resources and running the experiments. The selected JSON and figures document prior runs; they cannot independently reconstruct or re-audit every original prediction.
+This repository is a source-and-results release. **Datasets, trained weights, tokenizer binaries, full predictions, local environments and large execution artifacts are not stored in Git.** Adapted seed42 bundles are provided separately in [v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0); the original scratch bundle remains in [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0). Reproducing scores requires downloading the external resources and running the experiments. The selected JSON and figures document prior runs; they cannot independently reconstruct or re-audit every original prediction.
 
 ## Limitations and attribution
 

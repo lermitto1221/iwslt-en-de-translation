@@ -132,4 +132,15 @@ The original local acceptance record passed **349 regression checks** and preser
 
 ![Fixed-group gains](../results/figures/adaptation_groups.png)
 
-This update publishes **source, selected statistics, plots and reproduction instructions**. It does not publish new LoRA or full fine-tuning weights. Existing [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) remains the scratch seed42 model scoring **22.889 Beam BLEU**. The 33.450/34.032 values are three-seed aggregates, not the score of that ZIP or a new downloadable single model.
+The source repository publishes **source, selected statistics, plots and reproduction instructions**, with no model weights in Git. Separate [v1.1.0 Release assets](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) provide these inference exports:
+
+| Bundle | Selected seed42 update | Single-model test Beam BLEU | Deployment |
+|---|---:|---:|---|
+| [Full fine-tuning ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip.sha256) | 3,000 | **33.924** | 277.6 MB ZIP; complete weights included |
+| [LoRA ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip.sha256) | 1,500 | **33.402** | 2.34 MB ZIP; fixed original base weight about 298 MB also needed |
+
+Both sizes use decimal MB. Each ZIP includes `translate.py`, `inference.py`, `requirements.txt`, the native tokenizer/configuration, model identity and file checksums. After installing dependencies, the full model supports offline inference. LoRA downloads the exact original base once or accepts its local directory through `--base-model-dir PATH --offline`; the base hash is verified. The adapter is the project's own format, not PEFT. Follow the [standalone CPU demo](../README.md).
+
+The aggregate **33.450 ± 0.052 / 34.032 ± 0.094** values describe three trained seeds, not the individual LoRA/full downloads or an ensemble. Exports reuse existing trained weights. CPU acceptance verifies original-versus-export states, logits and fixed greedy/beam outputs, including effective generation settings; original full-test metrics remain those from the recorded FP32/GPU evaluation. No cross-hardware full-test bitwise claim is made.
+
+Existing [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) remains the scratch seed42 model scoring **22.889 Beam BLEU**, with its original `mt.translate` interface. Adapted ZIPs use their bundled standalone `translate.py`.

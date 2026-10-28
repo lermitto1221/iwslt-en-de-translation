@@ -1,254 +1,46 @@
 {
   "schema_version": 1,
-  "scope": "Changes from the previous local curated copy, not a claim of comparison against current remote HEAD.",
-  "source_status": "prepared_local_upload_pending",
+  "scope": "Post-release documentation delta against observed main commit a359068f12a08f03ca3671efd8941f5266e2d11f",
+  "upload_only_after_release": "v1.1.0",
+  "changed_or_new_files": 9,
   "files": [
     {
-      "path": ".github/workflows/tests.yml",
-      "status": "modified",
-      "bytes": 1011,
-      "sha256": "27a3587585d662927d69def4523c1dde8096e0519e9978f1fbe3ea1e28436d0d"
-    },
-    {
       "path": "PUBLIC_UPDATE.json",
-      "status": "added",
-      "note": "This inventory omits its own recursive hash."
+      "status": "modified"
     },
     {
       "path": "README.md",
-      "status": "modified",
-      "bytes": 10658,
-      "sha256": "cf657cd8c9eee6af9372f27a5a28b4d8bedeeaae91a354171fab4bd785103a46"
+      "status": "modified"
     },
     {
       "path": "README.zh-CN.md",
-      "status": "modified",
-      "bytes": 8683,
-      "sha256": "6de1ca6e814ea44ff1051cc3cac09611fa35c8db6f4e6484066b073da3d1baa3"
+      "status": "modified"
     },
     {
       "path": "RELEASE_CHECKS.json",
-      "status": "modified",
-      "bytes": 3519,
-      "sha256": "8dbc29dc85d6b73c64db5cd22bf0551ffc0827226d51fcaf8b209e5d62b9abe5"
+      "status": "modified"
     },
     {
       "path": "RELEASE_MANIFEST.json",
-      "status": "modified",
-      "note": "Contains hashes for all files except itself."
+      "status": "modified"
     },
     {
       "path": "docs/CV_ADAPTATION.md",
-      "status": "added",
-      "bytes": 11394,
-      "sha256": "9a31d11c02af5c44602697baff266e762dc3c4885a6e8178aa87b7b577192ef9"
+      "status": "modified"
     },
     {
       "path": "docs/PUBLISHING.md",
-      "status": "modified",
-      "bytes": 3135,
-      "sha256": "3f211bd76de3d653c55738a7946e55f448e1de8897c8aaf7648935d6383c8e09"
-    },
-    {
-      "path": "docs/REPRODUCING.md",
-      "status": "modified",
-      "bytes": 11201,
-      "sha256": "c14e9dbd27766492892563922d3a0f049d70a517b8ab5d0dcad94b7420b3ea98"
-    },
-    {
-      "path": "docs/REPRODUCING_CV_ADAPTATION.md",
-      "status": "added",
-      "bytes": 14072,
-      "sha256": "81356af4326e79be493d2d43547322d4784eb51de1b7e1ed5404403c4329f8c7"
+      "status": "modified"
     },
     {
       "path": "docs/RESULTS.md",
-      "status": "modified",
-      "bytes": 14381,
-      "sha256": "1c77e7e108e2428d92229a4969fd905a8bd89c7a78fabde77b9e7a2d02b93ab0"
-    },
-    {
-      "path": "docs/THIRD_PARTY.md",
-      "status": "modified",
-      "bytes": 4330,
-      "sha256": "4b0551c607fe862e5e8a5f2c93af675279abe87f3727a026081f04bc41b81348"
+      "status": "modified"
     },
     {
       "path": "docs/UPLOAD_UPDATE.zh-CN.md",
-      "status": "added",
-      "bytes": 2238,
-      "sha256": "dcb5cf48dcf01bd92e35e1b1718ff186bbbe5ccd03c5c21b7379ada26ffa87aa"
-    },
-    {
-      "path": "mt/adapt_data.py",
-      "status": "added",
-      "bytes": 7874,
-      "sha256": "57adad02a8fe70f25b8c6a16b379ee6c7ccbbf5034138b922389154c13574257"
-    },
-    {
-      "path": "mt/adapt_model.py",
-      "status": "added",
-      "bytes": 8409,
-      "sha256": "0359b0fd7e09b2273c30d1404844ed0f62375cb33bb941a90baa5e8c333417c1"
-    },
-    {
-      "path": "mt/adapt_train.py",
-      "status": "added",
-      "bytes": 47306,
-      "sha256": "0bdc69fe266b2f0c42c9a37b1739d0a5497491c86658f6f6aa65aa19473dc8a5"
-    },
-    {
-      "path": "mt/cv_evaluate.py",
-      "status": "added",
-      "bytes": 20115,
-      "sha256": "41ae21e337d06bfa514210b24c0945ee6559383f1e0d9d934742228bfa40e8ca"
-    },
-    {
-      "path": "mt/cv_prepare.py",
-      "status": "added",
-      "bytes": 26129,
-      "sha256": "1739c7254e0dd45fa85ffb0957f24b3eecba1206ad7e5330ee86d151c0b04c2b"
-    },
-    {
-      "path": "mt/cv_select.py",
-      "status": "added",
-      "bytes": 18456,
-      "sha256": "f86f269ce71fb9f5724707c167819a82186a7679023d7587c0f3d6b7569da1c4"
-    },
-    {
-      "path": "mt/cv_train.py",
-      "status": "added",
-      "bytes": 25148,
-      "sha256": "3769f126911e565f03956eeaeaa419b73395147ea93e34fb295e3c9de40994e5"
-    },
-    {
-      "path": "mt/study.py",
-      "status": "added",
-      "bytes": 25272,
-      "sha256": "f7f140bee91e42dc5ceb5fcbb764d9b1a5ab55c9744e0b03a0e667792c7b60a8"
-    },
-    {
-      "path": "mt/study_complete.py",
-      "status": "added",
-      "bytes": 31637,
-      "sha256": "54bfc02f52698df83a5cd3d88d142a34b35c70c3c6359801956f006746305720"
-    },
-    {
-      "path": "mt/study_report.py",
-      "status": "added",
-      "bytes": 136370,
-      "sha256": "46ddae12936a621b39c283317a0d067fd2ab8ed0370901602932c09f429f5c19"
-    },
-    {
-      "path": "recipes/cv_adaptation_design.json",
-      "status": "added",
-      "bytes": 2946,
-      "sha256": "15e1842a2687ade215a65fd15d2e7b7fdba20c18bfbc53943a6b1ad445b5e416"
-    },
-    {
-      "path": "requirements-pretrained.txt",
-      "status": "modified",
-      "bytes": 353,
-      "sha256": "4ead7597ac4f5d167305df8bc86f801be5c3d21375f7bd1ce684341ccd0d03df"
-    },
-    {
-      "path": "results/cv_adaptation.json",
-      "status": "added",
-      "bytes": 42650,
-      "sha256": "aae6931a4a63e30f44d0b885ae067b9261d9df7491480a3a12db9138a0e79b82"
-    },
-    {
-      "path": "results/figures/adaptation_cost.png",
-      "status": "added",
-      "bytes": 42145,
-      "sha256": "df4542318050c15592baf2d75ef583bfacd50ec8eb1edbfd0cb1b9f045b522b7"
-    },
-    {
-      "path": "results/figures/adaptation_groups.png",
-      "status": "added",
-      "bytes": 113789,
-      "sha256": "29e6aaa2729f533988810b624fa4d331a8f628b6233b59dcb6c9cf82ce6d949d"
-    },
-    {
-      "path": "results/figures/adaptation_quality.png",
-      "status": "added",
-      "bytes": 50854,
-      "sha256": "365c1970cf93ea433f00633946cc40e4b1f6159d0937009110f816e952ca3e9d"
-    },
-    {
-      "path": "results/figures/cv_candidate_scores.png",
-      "status": "added",
-      "bytes": 84185,
-      "sha256": "0c4261d3305569017b26fd36222acefbc6b6a32542f8d3f763084f3a1d865567"
-    },
-    {
-      "path": "results/figures/cv_group_balance.png",
-      "status": "added",
-      "bytes": 57213,
-      "sha256": "496dbcd9c0fcd5e9fa5dc97668303e078fb62d00c3447a5517e79e76418018eb"
-    },
-    {
-      "path": "scripts/prepare_cv_adaptation.py",
-      "status": "added",
-      "bytes": 12553,
-      "sha256": "9be07337f30747151cb4cb56f969b90a9ce6aa35ada4c938b64790854fb35bdb"
-    },
-    {
-      "path": "scripts/verify_public_package.py",
-      "status": "modified",
-      "bytes": 11303,
-      "sha256": "36aee1bc01f9128b559ab7a1fee565d93a11d1677c1bb322dd2217124c509d8b"
-    },
-    {
-      "path": "tests/test_adapt_training.py",
-      "status": "added",
-      "bytes": 14018,
-      "sha256": "711540586573a2fbae4c2ee9b2c8ad8b779f1f387faceb51e43a07c94056624c"
-    },
-    {
-      "path": "tests/test_cv_prepare.py",
-      "status": "added",
-      "bytes": 5808,
-      "sha256": "8f7c36cdf33ab543bb27a039089a744a4045c900be98dc83323ae9a5bfc00f3d"
-    },
-    {
-      "path": "tests/test_cv_select.py",
-      "status": "added",
-      "bytes": 16799,
-      "sha256": "60dc3574e20945e8769e065056d57c9e69f476ed888a91d7b99638c3e4f4f5b1"
-    },
-    {
-      "path": "tests/test_cv_training.py",
-      "status": "added",
-      "bytes": 22648,
-      "sha256": "21b6a9588b02fcc284242975f07664a64645dc2372c7f933ef996ef1bbe5e98f"
-    },
-    {
-      "path": "tests/test_public_cv_adaptation_recipe.py",
-      "status": "added",
-      "bytes": 7923,
-      "sha256": "85a48631d27bc83e075aed96f04434fe6ef4adcce131bb274dbeaf22250a400d"
-    },
-    {
-      "path": "tests/test_study.py",
-      "status": "added",
-      "bytes": 17295,
-      "sha256": "86ede382498d406fbe9c703a33d771e89c80a288c0649ea9bcc70023fbbbf0c9"
-    },
-    {
-      "path": "tests/test_study_complete.py",
-      "status": "added",
-      "bytes": 20500,
-      "sha256": "73d7b999673ac9a50a6b474a2a1de4bc8dcfaf218433b2032c302134236d07f3"
-    },
-    {
-      "path": "tests/test_study_report.py",
-      "status": "added",
-      "bytes": 37725,
-      "sha256": "6cc0932eb3b376528ae1131574181ce420765f6e7a0f5aac66be094602b22b01"
+      "status": "modified"
     }
   ],
-  "changed_or_new_files": 41,
   "deleted_files": [],
-  "instructions": "Upload these paths at their existing repository-relative locations. Preserve the repository history and v1.0.0 model release. See docs/UPLOAD_UPDATE.zh-CN.md."
+  "instructions": "Preserve these repository-relative paths. This delta contains no weights or workflow/source changes."
 }

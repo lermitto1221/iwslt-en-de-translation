@@ -1,6 +1,6 @@
 # Results and interpretation
 
-These are selected results from completed research runs, not new runs performed while preparing the public copy. Earlier aggregates are in [summary.json](../results/summary.json); the 2026-10-28 CV/adaptation study is in [cv_adaptation.json](../results/cv_adaptation.json). The source release excludes full corpora, weights and prediction files; rerun the pipelines to obtain a complete machine-local evidence chain.
+These are selected results from completed research runs, not new runs performed while preparing the public copy. Earlier aggregates are in [summary.json](../results/summary.json); the 2026-10-28 CV/adaptation study is in [cv_adaptation.json](../results/cv_adaptation.json). The source repository excludes full corpora, weights and prediction files. Selected model weights are distributed as separate Release assets; rerun the pipelines to obtain a complete machine-local research evidence chain.
 
 ## Dataset and scoring
 
@@ -110,7 +110,11 @@ All adaptation evaluation uses FP32 native greedy/beam 4, batch 16 and max_lengt
 
 Fixed length, rarity and anchor-tokenizer fragmentation groups use the same original sentence IDs for every method. For source length ≤10 versus >40 whitespace words, test beam BLEU is **37.957 / 31.773** for LoRA and **38.509 / 32.185** for full fine-tuning (three-seed means). Group associations include confounding; they do not isolate causes. Agent-assisted examples retain both improvements and failures, including grammatical, long-range relation and number-context errors.
 
-See [CV_ADAPTATION.md](CV_ADAPTATION.md) for the full public study description and [REPRODUCING_CV_ADAPTATION.md](REPRODUCING_CV_ADAPTATION.md) for fresh-machine commands. New adaptation weights are not released by this source-only update. Existing [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) remains the single scratch seed42 model with **22.889 Beam BLEU**.
+See [CV_ADAPTATION.md](CV_ADAPTATION.md) for the full public study description and [REPRODUCING_CV_ADAPTATION.md](REPRODUCING_CV_ADAPTATION.md) for fresh-machine commands. The source repository excludes weights; separate [v1.1.0 Release assets](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) provide the selected **seed42 full model (33.924 Beam BLEU)** and **seed42 LoRA (33.402 Beam BLEU)**. These individual-checkpoint scores differ from the three-seed means **34.032 ± 0.094 / 33.450 ± 0.052** above.
+
+The full ZIP is **277,564,485 bytes (277.6 MB decimal)** and contains complete selected weights. The LoRA ZIP is **2,339,896 bytes (2.34 MB decimal)**, contains the project's custom adapter plus native tokenizer/configuration, and requires the fixed original base weight (about 298 MB). It is not a PEFT adapter. Both include standalone scripts and pinned inference dependencies. No research checkout is required for inference; see the [README demo](../README.md).
+
+The export reuses trained checkpoints without new training or another full-test benchmark. CPU checks compare state, logits, effective greedy/beam settings and fixed translations against the original loaders; cross-hardware bitwise equivalence for all test sentences is not claimed. Existing [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) remains the single scratch seed42 model with **22.889 Beam BLEU**, using its original `mt.translate` entry point.
 
 ## Data and group diagnostics
 

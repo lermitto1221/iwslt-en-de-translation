@@ -1,33 +1,43 @@
 # IWSLT-17 英德机器翻译
 
-[模型下载](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [English](README.md) · [实验结果](docs/RESULTS.md) · [CV 与适配研究](docs/CV_ADAPTATION.md) · [复现说明](docs/REPRODUCING.md) · [第三方来源](docs/THIRD_PARTY.md)
+[模型下载 — v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) · [English](README.md) · [实验结果](docs/RESULTS.md) · [CV 与适配研究](docs/CV_ADAPTATION.md) · [复现说明](docs/REPRODUCING.md) · [第三方来源](docs/THIRD_PARTY.md)
 
 [![CPU regression tests](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/lermitto1221/iwslt-en-de-translation/actions/workflows/tests.yml)
 
 基于 PyTorch 的英→德机器翻译项目，重点是控制变量、结果稳定性与错误分析。项目从零训练小型 Transformer，使用三个随机种子研究训练预算和子词表示，完成分组交叉验证调参，并比较同一 OPUS-MT 底座的直接推理、LoRA 与全参数微调。
 
-## 模型下载与试译
+## 下载适配模型并试译
 
-**[下载模型 ZIP（约 43.5 MB）](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip) · [发布说明](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) · [SHA-256 校验文件](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.0.0/iwslt-en-de-seed42-12000-inference-v1.0.0.zip.sha256)**
+[v1.1.0 Release](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) 分别提供全参和 LoRA 推理包，均自带 `translate.py`、`inference.py`、固定版本依赖、原生分词器与配置及使用说明。**无需克隆源码仓库、下载训练数据或重新训练。** 下列 MB 使用十进制计量。
 
-先克隆或下载本仓库源码，进入仓库根目录；使用 Python 3.13 在 Windows PowerShell 中安装依赖：
+| 下载 | ZIP 大小 | seed42 单模型测试 Beam BLEU | 运行条件 |
+|---|---:|---:|---|
+| [全参数微调 ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-full-seed42-inference-v1.1.0.zip.sha256) | **277.6 MB** | **33.924** | 包含完整权重，安装依赖后可离线翻译 |
+| [LoRA ZIP](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip) · [SHA-256](https://github.com/lermitto1221/iwslt-en-de-translation/releases/download/v1.1.0/iwslt-en-de-lora-seed42-inference-v1.1.0.zip.sha256) | **2.34 MB** | **33.402** | 首次运行下载约 298 MB 的固定原始底座权重 |
+
+建议先试用全参包。下载全参 ZIP 后，对照 `.sha256` 校验文件；使用 Python 3.13，在 ZIP 所在目录的 Windows PowerShell 中运行：
 
 ```powershell
+Expand-Archive -LiteralPath .\iwslt-en-de-full-seed42-inference-v1.1.0.zip -DestinationPath .\models
+Set-Location .\models\full_seed42
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe translate.py --device cpu --method beam --offline --text "Thank you very much."
 ```
 
-将模型 ZIP 放到仓库根目录，然后解压并试译：
+LoRA ZIP 解压得到 `lora_seed42`，按包内 README 执行相同安装步骤；首次试译去掉 `--offline`，允许下载固定底座。已有原始底座时可使用 `--base-model-dir PATH --offline`，运行时会核验模型、revision 和权重 SHA-256。该格式由本项目实现，**不是 PEFT adapter**；2.34 MB ZIP 不代表全部部署体积。
+
+全参／LoRA 下载包的 seed42 成绩分别为 **33.924／33.402**。下文 **34.032 ± 0.094／33.450 ± 0.052** 是三个种子的均值±样本标准差，不是这两个单模型或集成模型的成绩。记录的测试分数来自原 FP32／GPU 协议，CPU 导出检查不承诺跨硬件逐位一致。超过 512 个原生源 token 的输入会被拒绝，不静默截断；翻译错误仍存在。
+
+### 原小型模型试译
+
+[v1.0.0 Release](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) 继续保留 43.5 MB 的从零训练 seed42／12,000 步模型包，单模型 **22.889 Beam BLEU**；其研究中的 **23.137 ± 0.321** 为三种子均值。安装本源码仓库依赖并将旧包解压到 `models` 后，原命令仍可使用：
 
 ```powershell
-Expand-Archive -LiteralPath .\iwslt-en-de-seed42-12000-inference-v1.0.0.zip -DestinationPath .\models
 python -m mt.translate --bundle .\models\quality_A42_12000 --device cpu --method beam --text "Thank you very much."
 ```
 
-已验证输出：`Vielen Dank.` 模型包包含权重、原分词器和解码设置，试译无需下载训练数据或重新训练。`--bundle` 指向解压后的模型目录，不是 ZIP 文件。
-
-下载包是 **seed=42、12,000 次更新**的单模型，测试 Beam BLEU 为 **22.889**；下文 **23.137 ± 0.321** 是三个种子的汇总，不是这个单模型或集成模型的成绩。漏译、实体和长句错误仍存在，详见[结果说明](docs/RESULTS.md)。
+v1.1.0 适配模型使用包内独立的 `translate.py` 入口。统计口径和局限见[结果说明](docs/RESULTS.md)。
 
 ## 主要结果
 
@@ -53,7 +63,7 @@ LoRA 训练 **294,912 / 74,705,408 个参数（0.395%）**，较底座提高 **0
 
 ![同底座适配质量](results/figures/adaptation_quality.png)
 
-2026-10-28 研究完成 **19 次训练、57,000 次净更新及 102 遍完整评测**；资源探测和中断回放额外计算另行记录。详见[研究设计与局限](docs/CV_ADAPTATION.md)、[便携复现说明](docs/REPRODUCING_CV_ADAPTATION.md)及[机器可读结果](results/cv_adaptation.json)。这次源码更新和现有 v1.0.0 模型 ZIP 均不包含新增适配权重。
+2026-10-28 研究完成 **19 次训练、57,000 次净更新及 102 遍完整评测**；资源探测和中断回放额外计算另行记录。详见[研究设计与局限](docs/CV_ADAPTATION.md)、[便携复现说明](docs/REPRODUCING_CV_ADAPTATION.md)及[机器可读结果](results/cv_adaptation.json)。适配权重通过 [v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) 单独提供，源码仓库和原 v1.0.0 小型模型 ZIP 均不包含适配权重。
 
 ## 实现与实验
 
@@ -96,7 +106,7 @@ CUDA、完整实验、恢复、评测和翻译入口见 [复现说明](docs/REPR
 
 ## 发布范围
 
-本仓库包含代码、配置、便携配方、精选图表、[历史聚合结果](results/summary.json)和[CV／适配结果](results/cv_adaptation.json)。**源码仓库不包含数据集、模型权重、分词器二进制、完整预测、本地依赖环境及大型运行产物。** 已训练的 seed42 推理包在 [Releases](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0) 单独提供。复现实验需要自行下载资源并运行；精选汇总不能代替原始预测逐条审计。
+本仓库包含代码、配置、便携配方、精选图表、[历史聚合结果](results/summary.json)和[CV／适配结果](results/cv_adaptation.json)。**源码仓库不包含数据集、模型权重、分词器二进制、完整预测、本地依赖环境及大型运行产物。** 新适配 seed42 推理包在 [v1.1.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.1.0) 单独提供，原小型模型保留在 [v1.0.0](https://github.com/lermitto1221/iwslt-en-de-translation/releases/tag/v1.0.0)。复现实验需要自行下载资源并运行；精选汇总不能代替原始预测逐条审计。
 
 三种子衡量固定划分上的变化，另行执行的三折 CV 衡量 3,000 步预算下的划分敏感性。n=3 不代表统计显著。CV／官方验证参与选择，其分数用于诊断；公开测试集已在历史多轮研究中观察。OPUS 预训练与 IWSLT／TED 重叠无法排除，历史直接推理的后端工作区设置记录不完整。总体指标提高不代表逐句正确，漏译、否定反转、实体及长句错误仍存在。时间比较没有完全控制电源、温度、频率和执行顺序；LoRA 可训练参数少也不保证推理更快。
 
